@@ -50,19 +50,15 @@ class User:
         
 
     def edit(self):
-        edit_choice = input('''Press 1 to update task status.\nPress 2 to update task priority.\nPress 3 to remove task from board.\nPress 4 to create new task.\nPress 5 to exit edit mode.\n''')
+        edit_choice = input('''Press 1 to update task status.\nPress 2 to update task priority.\nPress 5 to exit edit mode.\n''')
         if edit_choice == '5': return
-        task_choice = input('''Type the task number to select the task or new task number to create: ''')
+        task_choice = input('''Type the task number to select: ''')
         chosen_task = {}
         for task in self.data['tasks']:
             if task['id'] == task_choice:
                 chosen_task = task
                 break
 
-        if chosen_task == {} and edit_choice != "4":
-            print("Invalid task selection. Please type a valid task id.")
-            self.edit()
-        
         else:
             new_tasks = [new_task for new_task in self.data['tasks'] if new_task != chosen_task]
             
@@ -81,32 +77,15 @@ class User:
                     chosen_task['priority'] = 'medium'
                 elif new_priority == '3':
                     chosen_task['priority'] = 'low'
-            
-            elif edit_choice == '4':
-                new_task_name = input("Enter new task description: ")
-                new_task_id = task_choice
-                new_task_priority = input("Enter new task priority: ")
-                new_task_status = "to-do"
-                new_created_task = {
-                    "id": new_task_id,
-                    "task": new_task_name,
-                    "priority": new_task_priority,
-                    "status": new_task_status
-                }
-                chosen_task = new_created_task
 
             if edit_choice != '3':
                 new_tasks.append(chosen_task)
             self.data['tasks'] = new_tasks
 
-    def userView(self):
-        #Allow changes to be made to users KanbanBoard especially for verification
-        pass
-
     def run(self):
         exit_flag = False
         while not exit_flag:
-            choice = input('''\nPress 1 to display/edit your Kanban Board,\nPress 2 to view/edit user's Kanban Board,\nPress 3 to exit: ''')
+            choice = input('''\nPress 1 to display/edit your Kanban Board,\nPress 3 to exit: ''')
             if choice == "3":
                 exit_flag = True
                 with open(f"./userKanbanBoards/user{self.id}.json", 'w') as file:

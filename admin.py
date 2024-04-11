@@ -109,6 +109,10 @@ class Admin:
                 self.display()
                 self.edit()
 
+            elif choice == "2":
+                self.display()
+                self.userView()
+
             
 
                 
